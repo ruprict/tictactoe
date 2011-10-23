@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative "../lib/board"
+require "#{File.dirname(__FILE__)}/test_helper"
 
 describe "Board" do
   before do
@@ -38,5 +38,16 @@ describe "Board" do
   it "should not let the same cell be played twice" do
     @board[1,1] = :O
     assert_raises(TicTacToe::CellAlreadyPlayedError) {@board[1,1] = :X}
+  end
+
+  it "should print the current board" do
+    @board.current.must_equal(" | | \n | | \n | | \n")
+  end
+
+  it "should have a winner" do
+    @board[0,0] = :X
+    @board[0,1] = :X
+    @board[0,2] = :X
+    assert(@board.has_winner?)
   end
 end

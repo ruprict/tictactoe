@@ -1,2 +1,2 @@
-require_relative './board'
-require_relative './game'
+require "#{File.dirname(__FILE__)}/../lib/tictactoe/board"
+require "#{File.dirname(__FILE__)}/../lib/tictactoe/game"

@@ -43,7 +43,40 @@ module TicTacToe
     def clear?
       @clear
     end
+    # Display the current board in a 
+    # tictactoey fashion
+    def current
+      str = ""
+      @surface.each do |row|
+        row.each_with_index do |cell, ind|
+          str << (cell.nil? ? " " : cell.to_s) 
+          str << "|" unless ind == 2
+        end
+        str << "\n"
+      end
+      str
+    end
 
+    def has_winner?
+      winner = false
+      @surface.each do |row|
+        if row.all? {|c| c == :X} || row.all? {|c| c == :O}
+          winner = true
+        end
+      end
+      cols.each do |col|
+        if col.all? {|c| c == :X} || col.all?{|c| c == :O}
+          winner = true
+        end
+      end
+      if (@surface[0][1] == @surface[1][1]) && (@surface[1][1] == @surface[2][2])
+        winner = true
+      end
+      if (@surface[0][2] == @surface[1][1]) && (@surface[1][1] == @surface[2][0])
+        winner = true
+      end
+      winner
+    end
     private
 
     def initialize_surface
@@ -58,43 +91,4 @@ module TicTacToe
   class CellAlreadyPlayedError < StandardError; end
 end
 
-require 'minitest/autorun'
-describe "Board" do
-  before do
-    @board = TicTacToe::Board.new
-  end
-  it "should have a 3 X 3 structure" do
-    @board.rows.count.must_equal(3)
-    @board.cols.count.must_equal(3)
-  end
-  it "should allow setting row, col values" do
-    @board[1,1] = :X
-    @board[1,1].must_equal(:X)
-    @board[2,2] = :O
-    @board[2,2].must_equal(:O)
-  end
 
-  it "must not allow setting row,col outside grid" do
-    assert_raises(IndexError) { @board[4,1] = :X }
-    assert_raises(IndexError) { @board[1,4] = :X }
-  end
-  
-  it "should return a column value if set" do
-    @board[2,1] = :X
-    @board.cols[1][2].must_equal(:X)
-  end
-
-  it "should be clear at first" do
-    assert(@board.clear?)
-  end
-
-  it "should not be clear if a cell has a value" do
-    @board[1,1] = :X
-    refute(@board.clear?, "Board is not clear")
-  end
-
-  it "should not let the same cell be played twice" do
-    @board[1,1] = :O
-    assert_raises(TicTacToe::CellAlreadyPlayedError) {@board[1,1] = :X}
-  end
-end
