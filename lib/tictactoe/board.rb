@@ -69,10 +69,11 @@ module TicTacToe
           winner = true
         end
       end
-      if (@surface[0][1] == @surface[1][1]) && (@surface[1][1] == @surface[2][2])
+      if (@surface[0][0] == @surface[1][1]) && (@surface[1][1] == @surface[2][2]) && !@surface[0][1].nil?
         winner = true
       end
-      if (@surface[0][2] == @surface[1][1]) && (@surface[1][1] == @surface[2][0])
+      if (@surface[0][2] == @surface[1][1]) && (@surface[1][1] == @surface[2][0]) && !@surface[0][2].nil?
+
         winner = true
       end
       winner

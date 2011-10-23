@@ -14,17 +14,26 @@ module TicTacToe
     end
 
     def play(row, col)
-      puts "Game is over" unless @winner.nil?
-      @board[row,col] = @current_player
-      current
-      if (@board.has_winner?)
-        puts "#{@current_player} is the winner!"
+      return unless can_play?
+      if (play_board(row, col) && board.has_winner?)
         @winner = @current_player
+        current
+        can_play?
+        
       else
+        current
         next_turn
       end
     end
-   
+  
+    def can_play?
+      if board.has_winner?
+        p "Game is over. #{@winner} won."
+        false
+      else
+        true
+      end
+    end
     def current
       puts @board.current
       @board.current
@@ -38,6 +47,16 @@ module TicTacToe
     def next_turn
       @current_player = @players_enum.next
       puts "#{@current_player} is up."
+    end
+    
+    def play_board(row, col)
+      begin
+        @board[row,col] = @current_player
+        true
+      rescue CellAlreadyPlayedError
+        p "Cell taken, try again!"
+        false  
+      end
     end
   end
 end

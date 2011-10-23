@@ -39,4 +39,8 @@ describe "Game" do
     @game.winner.must_equal(first)
     assert(@game.over?)
   end
+
+  it "should handle a cell already played" do
+    skip("Need to test output again...") 
+  end
 end

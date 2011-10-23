@@ -50,4 +50,8 @@ describe "Board" do
     @board[0,2] = :X
     assert(@board.has_winner?)
   end
+
+  it "should not have a winner with an empty board" do
+    refute(@board.has_winner?)  
+  end
 end
