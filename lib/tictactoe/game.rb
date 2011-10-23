@@ -15,7 +15,14 @@ module TicTacToe
 
     def play(row, col)
       return unless can_play?
-      if (play_board(row, col) && board.has_winner?)
+      begin
+        play_board(row, col)
+      rescue TicTacToe::CellAlreadyPlayedError
+        puts "Cell taken, try again"
+        current
+        return
+      end
+      if (board.has_winner?)
         @winner = @current_player
         current
         can_play?
@@ -50,13 +57,7 @@ module TicTacToe
     end
     
     def play_board(row, col)
-      begin
-        @board[row,col] = @current_player
-        true
-      rescue CellAlreadyPlayedError
-        p "Cell taken, try again!"
-        false  
-      end
+      @board[row,col] = @current_player
     end
   end
 end
