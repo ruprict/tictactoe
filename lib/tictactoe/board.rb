@@ -1,6 +1,8 @@
 require 'pry'
 module TicTacToe
   class Board
+    LEFT_DIAGONAL_POSITIONS  = [[0,0],[1,1],[2,2]]
+    RIGHT_DIAGONAL_POSITIONS = [[2,0],[1,1],[0,2]]
     attr_reader :surface
     def initialize
       initialize_surface
@@ -69,14 +71,20 @@ module TicTacToe
           winner = true
         end
       end
-      if (@surface[0][0] == @surface[1][1]) && (@surface[1][1] == @surface[2][2]) && !@surface[0][1].nil?
+      if left_diagonal.all? {|c| c == :X} || left_diagonal.all?{|c| c == :O}
         winner = true
       end
-      if (@surface[0][2] == @surface[1][1]) && (@surface[1][1] == @surface[2][0]) && !@surface[0][2].nil?
-
+      if right_diagonal.all? {|c| c == :X} || right_diagonal.all?{|c| c == :O}
         winner = true
       end
       winner
+    end
+
+    def left_diagonal
+      LEFT_DIAGONAL_POSITIONS.map { |e| self[*e] }
+    end
+    def right_diagonal
+      RIGHT_DIAGONAL_POSITIONS.map{|e| self[*e]} 
     end
     private
 

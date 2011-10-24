@@ -3,7 +3,8 @@ require_relative './test_helper'
 describe "Game" do
   
   before do
-    @game = TicTacToe::Game.new
+    @out = StringIO.new
+    @game = TicTacToe::Game.new(TicTacToe::Board.new, @out)
   end
   it "should start with an empty board" do
     @game.board.clear? 
@@ -22,10 +23,7 @@ describe "Game" do
   end
 
   it "should say who is first" do
-    skip("can't figure out how to assert_output...")
-    proc {
-      TicTacToe::Game.new
-    }.must_output(/is first/)
+    @out.string.must_match(/goes first/)
   end
 
   it "should declare a winner" do

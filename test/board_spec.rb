@@ -49,6 +49,11 @@ describe "Board" do
     @board[0,1] = :X
     @board[0,2] = :X
     assert(@board.has_winner?)
+    @board = TicTacToe::Board.new
+    @board[0,0] = :X
+    @board[1,1] = :X
+    @board[2,2] = :X
+    assert(@board.has_winner?)
   end
 
   it "should not have a winner with an empty board" do
